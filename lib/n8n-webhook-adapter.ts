@@ -1,4 +1,4 @@
-npm/**
+/**
  * N8nWebhookAdapter Ã¢â‚¬â€ synchronous webhook-based execution adapter.
  *
  * This adapter implements the ExecutionAdapter interface by POSTing
