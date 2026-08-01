@@ -19,7 +19,20 @@ interface LeadFormProps {
   payload: Record<string, unknown>;
 }
 
-const fieldGroups = [
+type LeadFormField = {
+  key: Exclude<keyof LeadFormData, 'business_context'>;
+  label: string;
+  placeholder: string;
+  wide: boolean;
+  hint?: string;
+};
+
+type LeadFormFieldGroup = {
+  label: string;
+  fields: LeadFormField[];
+};
+
+const fieldGroups: LeadFormFieldGroup[] = [
   {
     label: 'TARGET MARKET',
     fields: [

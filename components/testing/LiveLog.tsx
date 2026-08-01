@@ -36,7 +36,7 @@ export default function LiveLog({ logs }: LiveLogProps) {
       }}
     >
       {logs.length === 0 && (
-        <span style={{ color: '#5a5b6e' }}>// waiting for logs…</span>
+        <span style={{ color: '#5a5b6e' }}>{'// waiting for logs…'}</span>
       )}
       {logs.map((log, i) => {
         const time = new Date(log.timestamp);

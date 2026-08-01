@@ -141,7 +141,7 @@ export default function ExecutionConsole({
         </div>
         <div className="logs-list">
           {logs.length === 0 && (
-            <span className="logs-empty">// waiting for events...</span>
+            <span className="logs-empty">{'// waiting for events...'}</span>
           )}
           {logs.map((log, i) => (
             <div key={i} className="log-entry">
