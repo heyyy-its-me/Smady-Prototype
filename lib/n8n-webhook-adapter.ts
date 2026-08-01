@@ -120,19 +120,13 @@ function normalizeWebhookResponse(raw: unknown, agentId: string): ApiExecutionRe
 
   if (!raw) {
     return {
+      id: "client-request-" + now,
+      agentId,
+      status: "completed",
       nodes: [],
-      logs: [{ timestamp: now, level: 'info' as const, message: 'Webhook returned empty response.' }],
+      logs: [{ timestamp: now, level: "info" as const, message: "Webhook returned empty response." }],
       startTime: now,
       endTime: now,
-      success: true,
-    };
-
-    return {
-      id: `client-request-${now}`,
-      agentId,
-      status: 'completed',
-      ...norm,
-      logs: norm.logs as ApiLogResponse[],
     };
   }
 
@@ -166,7 +160,7 @@ function normalizeWebhookResponse(raw: unknown, agentId: string): ApiExecutionRe
           })
         : [];
 
-      const norm = {
+      const norm: NormalisedResponse = {
         nodes,
         logs,
         startTime: (obj.startTime as number) ?? now,
@@ -188,7 +182,7 @@ function normalizeWebhookResponse(raw: unknown, agentId: string): ApiExecutionRe
     const errorMessage = typeof obj.error === 'string' ? obj.error : undefined;
     const message = errorMessage ?? (obj.message as string) ?? (obj.result as string) ?? JSON.stringify(obj);
     const output = JSON.stringify(obj);
-    const norm = {
+    const norm: NormalisedResponse = {
       nodes: [
         {
           id: `${agentId}-1`,
@@ -240,7 +234,7 @@ function normalizeWebhookResponse(raw: unknown, agentId: string): ApiExecutionRe
       };
     });
 
-    const norm = {
+    const norm: NormalisedResponse = {
       nodes: [
         {
           id: `${agentId}-1`,
@@ -289,7 +283,6 @@ function normalizeWebhookResponse(raw: unknown, agentId: string): ApiExecutionRe
     ],
     startTime: now,
     endTime: now,
-    success: true,
     id: `client-request-${now}`,
     agentId,
     status: 'completed',
