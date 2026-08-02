@@ -196,7 +196,7 @@ export default function AgentPipeline({ active, onSelect, runningAgent }: AgentP
 
         .step-icon.active {
           border-color: var(--violet);
-          box-shadow: 0 0 16px rgba(124, 92, 255, 0.2);
+          box-shadow: 0 0 16px rgba(255, 255, 255, 0.2);
           animation: pulse-glow 2s ease-in-out infinite;
         }
 

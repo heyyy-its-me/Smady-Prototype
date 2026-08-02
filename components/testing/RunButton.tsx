@@ -21,8 +21,8 @@ export default function RunButton({ state, onRun, onCancel, disabled, idleLabel 
           .run-btn {
             display: inline-flex; align-items: center; gap: 8px;
             padding: 10px 22px; border-radius: var(--radius-md);
-            border: 1px solid rgba(124,92,255,0.3);
-            background: rgba(124,92,255,0.12);
+            border: 1px solid rgba(255, 255, 255,0.3);
+            background: rgba(255, 255, 255,0.12);
             color: var(--violet-bright);
             font-size: 12px; font-weight: 700; letter-spacing: 0.03em;
             cursor: not-allowed; transition: all var(--duration-fast) ease;
@@ -30,11 +30,11 @@ export default function RunButton({ state, onRun, onCancel, disabled, idleLabel 
           .spin-icon { animation: spin-slow 1s linear infinite; }
             /* Playful run controls */
           .run-btn { border-radius: 999px !important; min-height: 44px; padding-inline: 24px !important; }
-          .run-btn.idle { background: linear-gradient(100deg, #ff7bbf, #bd78ff 48%, #55dbc9) !important; box-shadow: 0 12px 28px rgba(224, 84, 191, 0.32), 0 0 0 1px rgba(255,255,255,0.18) inset !important; }
-          .run-btn.idle:hover { box-shadow: 0 18px 36px rgba(224, 84, 191, 0.42), 0 0 0 1px rgba(255,255,255,0.25) inset !important; transform: translateY(-3px) scale(1.02) !important; }
+          .run-btn.idle { background: #f5f5f5 !important; color: #111 !important; box-shadow: 0 8px 20px rgba(0,0,0,0.22) !important; }
+          .run-btn.idle:hover { box-shadow: 0 10px 24px rgba(0,0,0,0.32) !important; transform: translateY(-3px) scale(1.02) !important; }
           .run-btn.loading { background: linear-gradient(100deg, rgba(189,120,255,0.25), rgba(85,219,201,0.18)) !important; }
           .run-btn.running { background: linear-gradient(100deg, rgba(255,126,157,0.22), rgba(255,184,107,0.16)) !important; }
-          .run-btn.completed { background: linear-gradient(100deg, rgba(112,240,208,0.2), rgba(168,245,138,0.15)) !important; }
+          .run-btn.completed { background: linear-gradient(100deg, rgba(255, 255, 255,0.2), rgba(168,245,138,0.15)) !important; }
       `}</style>
       </button>
     );
@@ -58,11 +58,11 @@ export default function RunButton({ state, onRun, onCancel, disabled, idleLabel 
           .run-btn:hover { background: rgba(248,113,113,0.18); }
             /* Playful run controls */
           .run-btn { border-radius: 999px !important; min-height: 44px; padding-inline: 24px !important; }
-          .run-btn.idle { background: linear-gradient(100deg, #ff7bbf, #bd78ff 48%, #55dbc9) !important; box-shadow: 0 12px 28px rgba(224, 84, 191, 0.32), 0 0 0 1px rgba(255,255,255,0.18) inset !important; }
-          .run-btn.idle:hover { box-shadow: 0 18px 36px rgba(224, 84, 191, 0.42), 0 0 0 1px rgba(255,255,255,0.25) inset !important; transform: translateY(-3px) scale(1.02) !important; }
+          .run-btn.idle { background: #f5f5f5 !important; color: #111 !important; box-shadow: 0 8px 20px rgba(0,0,0,0.22) !important; }
+          .run-btn.idle:hover { box-shadow: 0 10px 24px rgba(0,0,0,0.32) !important; transform: translateY(-3px) scale(1.02) !important; }
           .run-btn.loading { background: linear-gradient(100deg, rgba(189,120,255,0.25), rgba(85,219,201,0.18)) !important; }
           .run-btn.running { background: linear-gradient(100deg, rgba(255,126,157,0.22), rgba(255,184,107,0.16)) !important; }
-          .run-btn.completed { background: linear-gradient(100deg, rgba(112,240,208,0.2), rgba(168,245,138,0.15)) !important; }
+          .run-btn.completed { background: linear-gradient(100deg, rgba(255, 255, 255,0.2), rgba(168,245,138,0.15)) !important; }
       `}</style>
       </button>
     );
@@ -91,11 +91,11 @@ export default function RunButton({ state, onRun, onCancel, disabled, idleLabel 
           }
             /* Playful run controls */
           .run-btn { border-radius: 999px !important; min-height: 44px; padding-inline: 24px !important; }
-          .run-btn.idle { background: linear-gradient(100deg, #ff7bbf, #bd78ff 48%, #55dbc9) !important; box-shadow: 0 12px 28px rgba(224, 84, 191, 0.32), 0 0 0 1px rgba(255,255,255,0.18) inset !important; }
-          .run-btn.idle:hover { box-shadow: 0 18px 36px rgba(224, 84, 191, 0.42), 0 0 0 1px rgba(255,255,255,0.25) inset !important; transform: translateY(-3px) scale(1.02) !important; }
+          .run-btn.idle { background: #f5f5f5 !important; color: #111 !important; box-shadow: 0 8px 20px rgba(0,0,0,0.22) !important; }
+          .run-btn.idle:hover { box-shadow: 0 10px 24px rgba(0,0,0,0.32) !important; transform: translateY(-3px) scale(1.02) !important; }
           .run-btn.loading { background: linear-gradient(100deg, rgba(189,120,255,0.25), rgba(85,219,201,0.18)) !important; }
           .run-btn.running { background: linear-gradient(100deg, rgba(255,126,157,0.22), rgba(255,184,107,0.16)) !important; }
-          .run-btn.completed { background: linear-gradient(100deg, rgba(112,240,208,0.2), rgba(168,245,138,0.15)) !important; }
+          .run-btn.completed { background: linear-gradient(100deg, rgba(255, 255, 255,0.2), rgba(168,245,138,0.15)) !important; }
       `}</style>
       </button>
     );
@@ -119,11 +119,11 @@ export default function RunButton({ state, onRun, onCancel, disabled, idleLabel 
           .run-btn:hover { background: rgba(248,113,113,0.18); }
             /* Playful run controls */
           .run-btn { border-radius: 999px !important; min-height: 44px; padding-inline: 24px !important; }
-          .run-btn.idle { background: linear-gradient(100deg, #ff7bbf, #bd78ff 48%, #55dbc9) !important; box-shadow: 0 12px 28px rgba(224, 84, 191, 0.32), 0 0 0 1px rgba(255,255,255,0.18) inset !important; }
-          .run-btn.idle:hover { box-shadow: 0 18px 36px rgba(224, 84, 191, 0.42), 0 0 0 1px rgba(255,255,255,0.25) inset !important; transform: translateY(-3px) scale(1.02) !important; }
+          .run-btn.idle { background: #f5f5f5 !important; color: #111 !important; box-shadow: 0 8px 20px rgba(0,0,0,0.22) !important; }
+          .run-btn.idle:hover { box-shadow: 0 10px 24px rgba(0,0,0,0.32) !important; transform: translateY(-3px) scale(1.02) !important; }
           .run-btn.loading { background: linear-gradient(100deg, rgba(189,120,255,0.25), rgba(85,219,201,0.18)) !important; }
           .run-btn.running { background: linear-gradient(100deg, rgba(255,126,157,0.22), rgba(255,184,107,0.16)) !important; }
-          .run-btn.completed { background: linear-gradient(100deg, rgba(112,240,208,0.2), rgba(168,245,138,0.15)) !important; }
+          .run-btn.completed { background: linear-gradient(100deg, rgba(255, 255, 255,0.2), rgba(168,245,138,0.15)) !important; }
       `}</style>
       </button>
     );
@@ -139,11 +139,11 @@ export default function RunButton({ state, onRun, onCancel, disabled, idleLabel 
           display: inline-flex; align-items: center; gap: 10px;
           padding: 12px 28px; border-radius: var(--radius-md);
           border: none;
-          background: linear-gradient(135deg, var(--violet), #6a4ae0);
+          background: #f5f5f5; color: #111;
           color: #fff;
           font-size: 13px; font-weight: 700; letter-spacing: 0.03em;
           cursor: pointer; transition: all var(--duration-normal) var(--ease-spring);
-          box-shadow: 0 4px 16px rgba(124,92,255,0.3);
+          box-shadow: 0 4px 16px rgba(255, 255, 255,0.3);
           position: relative; overflow: hidden;
         }
         .run-btn::before {
@@ -154,18 +154,18 @@ export default function RunButton({ state, onRun, onCancel, disabled, idleLabel 
         }
         .run-btn:hover {
           transform: translateY(-1px);
-          box-shadow: 0 6px 24px rgba(124,92,255,0.4);
+          box-shadow: 0 6px 24px rgba(255, 255, 255,0.4);
         }
         .run-btn:hover::before { transform: translateX(100%); }
-        .run-btn:active { transform: translateY(0); box-shadow: 0 2px 8px rgba(124,92,255,0.3); }
+        .run-btn:active { transform: translateY(0); box-shadow: 0 2px 8px rgba(255, 255, 255,0.3); }
         .play-icon { display: grid; place-items: center; }
           /* Playful run controls */
           .run-btn { border-radius: 999px !important; min-height: 44px; padding-inline: 24px !important; }
-          .run-btn.idle { background: linear-gradient(100deg, #ff7bbf, #bd78ff 48%, #55dbc9) !important; box-shadow: 0 12px 28px rgba(224, 84, 191, 0.32), 0 0 0 1px rgba(255,255,255,0.18) inset !important; }
-          .run-btn.idle:hover { box-shadow: 0 18px 36px rgba(224, 84, 191, 0.42), 0 0 0 1px rgba(255,255,255,0.25) inset !important; transform: translateY(-3px) scale(1.02) !important; }
+          .run-btn.idle { background: #f5f5f5 !important; color: #111 !important; box-shadow: 0 8px 20px rgba(0,0,0,0.22) !important; }
+          .run-btn.idle:hover { box-shadow: 0 10px 24px rgba(0,0,0,0.32) !important; transform: translateY(-3px) scale(1.02) !important; }
           .run-btn.loading { background: linear-gradient(100deg, rgba(189,120,255,0.25), rgba(85,219,201,0.18)) !important; }
           .run-btn.running { background: linear-gradient(100deg, rgba(255,126,157,0.22), rgba(255,184,107,0.16)) !important; }
-          .run-btn.completed { background: linear-gradient(100deg, rgba(112,240,208,0.2), rgba(168,245,138,0.15)) !important; }
+          .run-btn.completed { background: linear-gradient(100deg, rgba(255, 255, 255,0.2), rgba(168,245,138,0.15)) !important; }
       `}</style>
     </button>
   );

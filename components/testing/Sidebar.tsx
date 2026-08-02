@@ -122,7 +122,7 @@ export default function Sidebar({ activeView, onViewChange }: SidebarProps) {
         .workspace-avatar {
           width: 28px; height: 28px; border-radius: 8px;
           display: grid; place-items: center;
-          background: linear-gradient(135deg, var(--violet-bright), #5b3fd4);
+          background: #f5f5f5; color: #111;
           color: #fff; font-size: 9px; font-weight: 700; flex-shrink: 0;
         }
         .workspace-info { flex: 1; min-width: 0; }
@@ -145,7 +145,7 @@ export default function Sidebar({ activeView, onViewChange }: SidebarProps) {
         .nav-item:hover { color: var(--text-primary); background: rgba(255,255,255,0.04); }
         .nav-item.active {
           color: var(--text-primary);
-          background: linear-gradient(90deg, rgba(124,92,255,0.15), rgba(124,92,255,0.04));
+          background: linear-gradient(90deg, rgba(255, 255, 255,0.15), rgba(255, 255, 255,0.04));
           box-shadow: inset 2px 0 0 var(--violet);
         }
         .nav-icon { flex-shrink: 0; opacity: 0.7; }
@@ -159,9 +159,9 @@ export default function Sidebar({ activeView, onViewChange }: SidebarProps) {
         .sidebar-footer { margin-top: auto; padding-top: 12px; border-top: 1px solid var(--border-subtle); }
         .help-card {
           display: flex; gap: 10px; padding: 12px; margin-top: 8px;
-          border: 1px solid rgba(124,92,255,0.2);
+          border: 1px solid rgba(255, 255, 255,0.2);
           border-radius: var(--radius-md);
-          background: linear-gradient(135deg, rgba(124,92,255,0.08), rgba(34,211,197,0.04));
+          background: linear-gradient(135deg, rgba(255, 255, 255,0.08), rgba(34,211,197,0.04));
           color: var(--violet-bright);
         }
         .help-card strong { display: block; font-size: 11px; color: var(--text-primary); }
@@ -179,7 +179,7 @@ export default function Sidebar({ activeView, onViewChange }: SidebarProps) {
         .sidebar { background: linear-gradient(180deg, rgba(42,25,69,0.86), rgba(18,24,52,0.8)); border-right-color: rgba(255,255,255,0.12); }
         .brand-mark { display: grid; place-items: center; width: 30px; height: 30px; border-radius: 10px; background: linear-gradient(135deg, #ff8ec9, #9c83ff 52%, #67e9d3); color: #fff7ff; box-shadow: 0 8px 20px rgba(203,107,226,0.28); }
         .workspace-selector { background: rgba(255,255,255,0.055); border-color: rgba(255,255,255,0.13); }
-        .nav-item.active { background: linear-gradient(100deg, rgba(255,148,202,0.16), rgba(112,240,208,0.08)); box-shadow: inset 2px 0 0 var(--pink), 0 6px 14px rgba(16,8,36,0.14); }
+        .nav-item.active { background: linear-gradient(100deg, rgba(255, 255, 255,0.16), rgba(255, 255, 255,0.08)); box-shadow: inset 2px 0 0 var(--pink), 0 6px 14px rgba(16,8,36,0.14); }
       `}</style>
     </aside>
   );

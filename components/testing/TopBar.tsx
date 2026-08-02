@@ -57,8 +57,8 @@ export default function TopBar({ agentTitle, status, isRunning }: TopBarProps) {
         .user-avatar {
           width: 28px; height: 28px; border-radius: 7px;
           display: grid; place-items: center;
-          background: linear-gradient(135deg, #f0ceff, #9376ef);
-          color: #2b1b54; font-size: 9px; font-weight: 700;
+          background: #e5e5e5;
+          color: #111; font-size: 9px; font-weight: 700;
         }
         .user-name { font-size: 12px; color: var(--text-secondary); font-weight: 500; }
         @media (max-width: 700px) {
@@ -66,10 +66,10 @@ export default function TopBar({ agentTitle, status, isRunning }: TopBarProps) {
           .user-name { display: none; }
         }
         /* Top bar glass treatment */
-        .topbar { background: rgba(31, 18, 55, 0.52); border-bottom-color: rgba(255,255,255,0.12); }
+        .topbar { background: rgba(10, 10, 10, 0.88); border-bottom-color: rgba(255,255,255,0.12); }
         .user-profile { border: 1px solid transparent; }
         .user-profile:hover { border-color: rgba(255,255,255,0.14); background: rgba(255,255,255,0.07); }
-        .user-avatar { border-radius: 50%; box-shadow: 0 5px 14px rgba(205,103,218,0.28); }
+        .user-avatar { border-radius: 50%; box-shadow: 0 5px 14px rgba(0,0,0,0.3); }
       `}</style>
     </header>
   );

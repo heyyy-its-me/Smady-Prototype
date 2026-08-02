@@ -101,7 +101,7 @@ export default function OutputViewer({ result, onSendMailToLeads }: OutputViewer
             display: flex; flex-direction: column; align-items: center; gap: 10px;
           }
           /* Outcome showcase treatment */
-        .metrics-bar { border-radius: 16px; background: linear-gradient(105deg, rgba(255,148,202,0.12), rgba(112,240,208,0.1), rgba(255,224,110,0.08)); border-color: rgba(255,255,255,0.15); box-shadow: 0 12px 26px rgba(19,8,42,0.16); }
+        .metrics-bar { border-radius: 16px; background: #202020; border-color: rgba(255,255,255,0.15); box-shadow: 0 12px 26px rgba(19,8,42,0.16); }
         .metric { transition: transform var(--duration-fast) var(--ease-out); }
         .metric:hover { transform: translateY(-3px) scale(1.04); }
         .lead-table-wrapper { border-radius: 16px; background: rgba(14,8,34,0.28); }
@@ -304,12 +304,12 @@ export default function OutputViewer({ result, onSendMailToLeads }: OutputViewer
         }
         .outreach-cta {
           display: flex; align-items: center; justify-content: space-between; gap: 16px;
-          padding: 14px 16px; border: 1px solid rgba(255, 148, 202, 0.28);
-          border-radius: var(--radius-sm); background: rgba(255, 148, 202, 0.07);
+          padding: 14px 16px; border: 1px solid rgba(255, 255, 255, 0.16);
+          border-radius: var(--radius-sm); background: #202020;
         }
         .outreach-cta strong { font-size: 12px; color: var(--text-primary); }
         .outreach-cta p { margin: 3px 0 0; font-size: 10px; color: var(--text-tertiary); }
-        .outreach-cta button { flex-shrink: 0; border: 0; border-radius: 7px; padding: 9px 12px; background: linear-gradient(100deg, #ff7bbf, #bd78ff); color: #fff; font-size: 10px; font-weight: 700; cursor: pointer; }
+        .outreach-cta button { flex-shrink: 0; border: 0; border-radius: 7px; padding: 9px 12px; background: #f5f5f5; color: #111; font-size: 10px; font-weight: 700; cursor: pointer; }
         .outreach-cta button:hover { filter: brightness(1.08); }
         .tab-bar {
           display: flex;
@@ -482,7 +482,7 @@ export default function OutputViewer({ result, onSendMailToLeads }: OutputViewer
         .exec-log-level.debug { color: var(--violet-bright); }
         .exec-log-msg { color: var(--text-secondary); }
         /* Outcome showcase treatment */
-        .metrics-bar { border-radius: 16px; background: linear-gradient(105deg, rgba(255,148,202,0.12), rgba(112,240,208,0.1), rgba(255,224,110,0.08)); border-color: rgba(255,255,255,0.15); box-shadow: 0 12px 26px rgba(19,8,42,0.16); }
+        .metrics-bar { border-radius: 16px; background: #202020; border-color: rgba(255,255,255,0.15); box-shadow: 0 12px 26px rgba(19,8,42,0.16); }
         .metric { transition: transform var(--duration-fast) var(--ease-out); }
         .metric:hover { transform: translateY(-3px) scale(1.04); }
         .lead-table-wrapper { border-radius: 16px; background: rgba(14,8,34,0.28); }

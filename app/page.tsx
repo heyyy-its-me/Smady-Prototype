@@ -287,7 +287,7 @@ export default function Home() {
         .input-badge {
           padding: 3px 8px;
           border-radius: 4px;
-          background: rgba(124, 92, 255, 0.1);
+          background: rgba(255, 255, 255, 0.1);
           color: var(--violet-bright);
           font-size: 9px;
           font-family: var(--font-mono);
@@ -360,7 +360,7 @@ export default function Home() {
 
         .source-drop:hover {
           border-color: var(--violet);
-          background: rgba(124, 92, 255, 0.04);
+          background: rgba(255, 255, 255, 0.04);
         }
 
         .source-icon {
@@ -401,8 +401,8 @@ export default function Home() {
           margin: 20px;
           padding: 16px;
           border-radius: var(--radius-md);
-          border: 1px solid rgba(124, 92, 255, 0.2);
-          background: rgba(124, 92, 255, 0.04);
+          border: 1px solid rgba(255, 255, 255, 0.2);
+          background: rgba(255, 255, 255, 0.04);
         }
 
         .auto-icon {
@@ -411,7 +411,7 @@ export default function Home() {
           border-radius: 10px;
           display: grid;
           place-items: center;
-          background: rgba(124, 92, 255, 0.1);
+          background: rgba(255, 255, 255, 0.1);
           color: var(--violet-bright);
           font-size: 18px;
           flex-shrink: 0;
@@ -444,7 +444,7 @@ export default function Home() {
 
         .btn-secondary:hover {
           border-color: var(--violet);
-          background: rgba(124, 92, 255, 0.06);
+          background: rgba(255, 255, 255, 0.06);
           color: var(--violet-bright);
         }
 
