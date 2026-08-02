@@ -175,6 +175,11 @@ export default function Sidebar({ activeView, onViewChange }: SidebarProps) {
           .sidebar-footer .nav-item { justify-content: center; }
         }
         @media (max-width: 700px) { .sidebar { display: none; } }
+        /* Sidebar glass treatment */
+        .sidebar { background: linear-gradient(180deg, rgba(42,25,69,0.86), rgba(18,24,52,0.8)); border-right-color: rgba(255,255,255,0.12); }
+        .brand-mark { display: grid; place-items: center; width: 30px; height: 30px; border-radius: 10px; background: linear-gradient(135deg, #ff8ec9, #9c83ff 52%, #67e9d3); color: #fff7ff; box-shadow: 0 8px 20px rgba(203,107,226,0.28); }
+        .workspace-selector { background: rgba(255,255,255,0.055); border-color: rgba(255,255,255,0.13); }
+        .nav-item.active { background: linear-gradient(100deg, rgba(255,148,202,0.16), rgba(112,240,208,0.08)); box-shadow: inset 2px 0 0 var(--pink), 0 6px 14px rgba(16,8,36,0.14); }
       `}</style>
     </aside>
   );

@@ -27,7 +27,14 @@ export default function RunButton({ state, onRun, onCancel, disabled }: RunButto
             cursor: not-allowed; transition: all var(--duration-fast) ease;
           }
           .spin-icon { animation: spin-slow 1s linear infinite; }
-        `}</style>
+            /* Playful run controls */
+          .run-btn { border-radius: 999px !important; min-height: 44px; padding-inline: 24px !important; }
+          .run-btn.idle { background: linear-gradient(100deg, #ff7bbf, #bd78ff 48%, #55dbc9) !important; box-shadow: 0 12px 28px rgba(224, 84, 191, 0.32), 0 0 0 1px rgba(255,255,255,0.18) inset !important; }
+          .run-btn.idle:hover { box-shadow: 0 18px 36px rgba(224, 84, 191, 0.42), 0 0 0 1px rgba(255,255,255,0.25) inset !important; transform: translateY(-3px) scale(1.02) !important; }
+          .run-btn.loading { background: linear-gradient(100deg, rgba(189,120,255,0.25), rgba(85,219,201,0.18)) !important; }
+          .run-btn.running { background: linear-gradient(100deg, rgba(255,126,157,0.22), rgba(255,184,107,0.16)) !important; }
+          .run-btn.completed { background: linear-gradient(100deg, rgba(112,240,208,0.2), rgba(168,245,138,0.15)) !important; }
+      `}</style>
       </button>
     );
   }
@@ -48,7 +55,14 @@ export default function RunButton({ state, onRun, onCancel, disabled }: RunButto
             cursor: pointer; transition: all var(--duration-fast) ease;
           }
           .run-btn:hover { background: rgba(248,113,113,0.18); }
-        `}</style>
+            /* Playful run controls */
+          .run-btn { border-radius: 999px !important; min-height: 44px; padding-inline: 24px !important; }
+          .run-btn.idle { background: linear-gradient(100deg, #ff7bbf, #bd78ff 48%, #55dbc9) !important; box-shadow: 0 12px 28px rgba(224, 84, 191, 0.32), 0 0 0 1px rgba(255,255,255,0.18) inset !important; }
+          .run-btn.idle:hover { box-shadow: 0 18px 36px rgba(224, 84, 191, 0.42), 0 0 0 1px rgba(255,255,255,0.25) inset !important; transform: translateY(-3px) scale(1.02) !important; }
+          .run-btn.loading { background: linear-gradient(100deg, rgba(189,120,255,0.25), rgba(85,219,201,0.18)) !important; }
+          .run-btn.running { background: linear-gradient(100deg, rgba(255,126,157,0.22), rgba(255,184,107,0.16)) !important; }
+          .run-btn.completed { background: linear-gradient(100deg, rgba(112,240,208,0.2), rgba(168,245,138,0.15)) !important; }
+      `}</style>
       </button>
     );
   }
@@ -74,7 +88,14 @@ export default function RunButton({ state, onRun, onCancel, disabled }: RunButto
             background: rgba(94,234,158,0.2);
             font-size: 10px;
           }
-        `}</style>
+            /* Playful run controls */
+          .run-btn { border-radius: 999px !important; min-height: 44px; padding-inline: 24px !important; }
+          .run-btn.idle { background: linear-gradient(100deg, #ff7bbf, #bd78ff 48%, #55dbc9) !important; box-shadow: 0 12px 28px rgba(224, 84, 191, 0.32), 0 0 0 1px rgba(255,255,255,0.18) inset !important; }
+          .run-btn.idle:hover { box-shadow: 0 18px 36px rgba(224, 84, 191, 0.42), 0 0 0 1px rgba(255,255,255,0.25) inset !important; transform: translateY(-3px) scale(1.02) !important; }
+          .run-btn.loading { background: linear-gradient(100deg, rgba(189,120,255,0.25), rgba(85,219,201,0.18)) !important; }
+          .run-btn.running { background: linear-gradient(100deg, rgba(255,126,157,0.22), rgba(255,184,107,0.16)) !important; }
+          .run-btn.completed { background: linear-gradient(100deg, rgba(112,240,208,0.2), rgba(168,245,138,0.15)) !important; }
+      `}</style>
       </button>
     );
   }
@@ -95,7 +116,14 @@ export default function RunButton({ state, onRun, onCancel, disabled }: RunButto
             cursor: pointer; transition: all var(--duration-fast) ease;
           }
           .run-btn:hover { background: rgba(248,113,113,0.18); }
-        `}</style>
+            /* Playful run controls */
+          .run-btn { border-radius: 999px !important; min-height: 44px; padding-inline: 24px !important; }
+          .run-btn.idle { background: linear-gradient(100deg, #ff7bbf, #bd78ff 48%, #55dbc9) !important; box-shadow: 0 12px 28px rgba(224, 84, 191, 0.32), 0 0 0 1px rgba(255,255,255,0.18) inset !important; }
+          .run-btn.idle:hover { box-shadow: 0 18px 36px rgba(224, 84, 191, 0.42), 0 0 0 1px rgba(255,255,255,0.25) inset !important; transform: translateY(-3px) scale(1.02) !important; }
+          .run-btn.loading { background: linear-gradient(100deg, rgba(189,120,255,0.25), rgba(85,219,201,0.18)) !important; }
+          .run-btn.running { background: linear-gradient(100deg, rgba(255,126,157,0.22), rgba(255,184,107,0.16)) !important; }
+          .run-btn.completed { background: linear-gradient(100deg, rgba(112,240,208,0.2), rgba(168,245,138,0.15)) !important; }
+      `}</style>
       </button>
     );
   }
@@ -130,6 +158,13 @@ export default function RunButton({ state, onRun, onCancel, disabled }: RunButto
         .run-btn:hover::before { transform: translateX(100%); }
         .run-btn:active { transform: translateY(0); box-shadow: 0 2px 8px rgba(124,92,255,0.3); }
         .play-icon { display: grid; place-items: center; }
+          /* Playful run controls */
+          .run-btn { border-radius: 999px !important; min-height: 44px; padding-inline: 24px !important; }
+          .run-btn.idle { background: linear-gradient(100deg, #ff7bbf, #bd78ff 48%, #55dbc9) !important; box-shadow: 0 12px 28px rgba(224, 84, 191, 0.32), 0 0 0 1px rgba(255,255,255,0.18) inset !important; }
+          .run-btn.idle:hover { box-shadow: 0 18px 36px rgba(224, 84, 191, 0.42), 0 0 0 1px rgba(255,255,255,0.25) inset !important; transform: translateY(-3px) scale(1.02) !important; }
+          .run-btn.loading { background: linear-gradient(100deg, rgba(189,120,255,0.25), rgba(85,219,201,0.18)) !important; }
+          .run-btn.running { background: linear-gradient(100deg, rgba(255,126,157,0.22), rgba(255,184,107,0.16)) !important; }
+          .run-btn.completed { background: linear-gradient(100deg, rgba(112,240,208,0.2), rgba(168,245,138,0.15)) !important; }
       `}</style>
     </button>
   );

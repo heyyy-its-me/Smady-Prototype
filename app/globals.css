@@ -402,3 +402,14 @@ button:hover:not(:disabled) { transform: translateY(-1px); }
 input:focus, textarea:focus { box-shadow: 0 0 0 3px rgba(255, 154, 210, 0.16); }
 @keyframes float-blob { 0%, 100% { transform: translate3d(0, 0, 0) rotate(0deg); } 50% { transform: translate3d(-20px, -26px, 0) rotate(10deg); } }
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; scroll-behavior: auto !important; } }
+/* AI operating system presentation layer */
+:root { --indigo: #9aa8ff; --lemon: #ffe06e; --coral: #ff9d88; }
+.agent-icon.indigo { background: rgba(154, 168, 255, 0.16); color: var(--indigo); }
+.agent-icon.yellow { background: rgba(255, 224, 110, 0.16); color: var(--lemon); }
+.agent-icon.cyan { background: rgba(112, 240, 208, 0.17); color: var(--cyan); }
+.agent-icon.orange { background: rgba(255, 184, 107, 0.18); color: var(--orange); }
+.agent-icon.pink { background: rgba(255, 148, 202, 0.18); color: var(--pink); }
+.agent-icon.green { background: rgba(168, 245, 138, 0.18); color: var(--mint); }
+.agent-icon.violet { background: rgba(185, 108, 255, 0.18); color: var(--violet-bright); }
+::selection { background: rgba(255, 148, 202, 0.32); color: #fff; }
+button:focus-visible, input:focus-visible, textarea:focus-visible { outline: 2px solid var(--lemon); outline-offset: 3px; }

@@ -350,6 +350,13 @@ export default function LeadForm({ values, onChange, payload }: LeadFormProps) {
             grid-template-columns: 1fr;
           }
         }
+        /* Command center input treatment */
+        .field-group { padding: 12px; border: 1px solid rgba(255,255,255,0.08); border-radius: 14px; background: linear-gradient(145deg, rgba(255,255,255,0.045), rgba(255,255,255,0.012)); transition: transform var(--duration-normal) var(--ease-out), border-color var(--duration-fast) ease; }
+        .field-group:focus-within { border-color: rgba(255,154,210,0.48); transform: translateY(-2px); box-shadow: 0 10px 24px rgba(24,10,51,0.16); }
+        .input-wrapper { border-radius: 11px; background: rgba(16, 9, 35, 0.42); }
+        .input-wrapper.focused { border-color: var(--cyan); box-shadow: 0 0 0 3px rgba(112,240,208,0.13), inset 0 1px 0 rgba(255,255,255,0.08); }
+        .chip { background: linear-gradient(100deg, rgba(255,148,202,0.16), rgba(185,108,255,0.14)); border-color: rgba(255,191,226,0.25); color: #ffe5f5; }
+        .payload-toggle { border: 1px dashed rgba(255,255,255,0.17); border-radius: 12px; padding: 12px; background: rgba(12,8,31,0.26); }
       `}</style>
     </div>
   );

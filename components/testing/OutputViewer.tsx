@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 
 import { useState } from 'react';
 import { ChevronDown, ChevronRight, FileText, Table2, Download } from 'lucide-react';
@@ -67,7 +67,18 @@ export default function OutputViewer({ result }: OutputViewerProps) {
             text-align: center; padding: 40px 20px; color: var(--text-tertiary);
             display: flex; flex-direction: column; align-items: center; gap: 10px;
           }
-        `}</style>
+          /* Outcome showcase treatment */
+        .metrics-bar { border-radius: 16px; background: linear-gradient(105deg, rgba(255,148,202,0.12), rgba(112,240,208,0.1), rgba(255,224,110,0.08)); border-color: rgba(255,255,255,0.15); box-shadow: 0 12px 26px rgba(19,8,42,0.16); }
+        .metric { transition: transform var(--duration-fast) var(--ease-out); }
+        .metric:hover { transform: translateY(-3px) scale(1.04); }
+        .lead-table-wrapper { border-radius: 16px; background: rgba(14,8,34,0.28); }
+        .lead-table tbody tr { animation: row-enter 0.38s var(--ease-out) both; }
+        .lead-table tbody tr:hover td { background: rgba(255,255,255,0.065); }
+        .cell-initial { width: 32px; }
+        .cell-initial::first-letter { display: inline-grid; }
+        .score-pill { box-shadow: 0 4px 12px rgba(0,0,0,0.14); }
+        @keyframes row-enter { from { opacity: 0; transform: translateY(7px); } to { opacity: 1; transform: translateY(0); } }
+      `}</style>
       </div>
     );
   }
@@ -403,6 +414,17 @@ export default function OutputViewer({ result }: OutputViewerProps) {
         .exec-log-level.error { color: var(--status-failed); }
         .exec-log-level.debug { color: var(--violet-bright); }
         .exec-log-msg { color: var(--text-secondary); }
+        /* Outcome showcase treatment */
+        .metrics-bar { border-radius: 16px; background: linear-gradient(105deg, rgba(255,148,202,0.12), rgba(112,240,208,0.1), rgba(255,224,110,0.08)); border-color: rgba(255,255,255,0.15); box-shadow: 0 12px 26px rgba(19,8,42,0.16); }
+        .metric { transition: transform var(--duration-fast) var(--ease-out); }
+        .metric:hover { transform: translateY(-3px) scale(1.04); }
+        .lead-table-wrapper { border-radius: 16px; background: rgba(14,8,34,0.28); }
+        .lead-table tbody tr { animation: row-enter 0.38s var(--ease-out) both; }
+        .lead-table tbody tr:hover td { background: rgba(255,255,255,0.065); }
+        .cell-initial { width: 32px; }
+        .cell-initial::first-letter { display: inline-grid; }
+        .score-pill { box-shadow: 0 4px 12px rgba(0,0,0,0.14); }
+        @keyframes row-enter { from { opacity: 0; transform: translateY(7px); } to { opacity: 1; transform: translateY(0); } }
       `}</style>
     </div>
   );

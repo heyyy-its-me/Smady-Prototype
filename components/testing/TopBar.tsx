@@ -65,6 +65,11 @@ export default function TopBar({ agentTitle, status, isRunning }: TopBarProps) {
           .topbar { padding: 0 16px; }
           .user-name { display: none; }
         }
+        /* Top bar glass treatment */
+        .topbar { background: rgba(31, 18, 55, 0.52); border-bottom-color: rgba(255,255,255,0.12); }
+        .user-profile { border: 1px solid transparent; }
+        .user-profile:hover { border-color: rgba(255,255,255,0.14); background: rgba(255,255,255,0.07); }
+        .user-avatar { border-radius: 50%; box-shadow: 0 5px 14px rgba(205,103,218,0.28); }
       `}</style>
     </header>
   );

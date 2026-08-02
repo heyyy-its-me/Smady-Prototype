@@ -381,6 +381,14 @@ export default function ExecutionConsole({
         .log-level.debug { color: var(--violet-bright); }
         .log-node { color: var(--violet-bright); flex-shrink: 0; }
         .log-message { color: var(--text-secondary); }
+        /* Execution centerpiece treatment */
+        .execution-console { position: relative; }
+        .console-header { padding: 12px 14px; border: 1px solid rgba(255,255,255,0.1); border-radius: 14px; background: linear-gradient(110deg, rgba(112,240,208,0.11), rgba(185,108,255,0.12)); }
+        .console-info { border-radius: 14px; background: rgba(16, 9, 35, 0.4); border-color: rgba(255,255,255,0.1); }
+        .activity-flow { border-radius: 16px; border: 1px solid rgba(112,240,208,0.15); background: linear-gradient(145deg, rgba(112,240,208,0.07), rgba(255,148,202,0.045)); padding: 14px; }
+        .console-logs { border-radius: 16px; overflow: hidden; border: 1px solid rgba(255,255,255,0.1); background: rgba(13, 7, 31, 0.42); }
+        .log-entry { animation: log-arrive 0.25s var(--ease-out); }
+        @keyframes log-arrive { from { opacity: 0; transform: translateX(-5px); } to { opacity: 1; transform: translateX(0); } }
       `}</style>
     </div>
   );

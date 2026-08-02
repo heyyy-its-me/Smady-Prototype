@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useMemo, useState } from "react";
 import Sidebar from "@/components/testing/Sidebar";
@@ -7,6 +7,7 @@ import AgentPipeline, { agents, type AgentInfo } from "@/components/testing/Agen
 import AgentHeader from "@/components/testing/AgentHeader";
 import LeadForm from "@/components/testing/LeadForm";
 import AgentProgress from "@/components/testing/AgentProgress";
+import PortalBackdrop from "@/components/testing/PortalBackdrop";
 
 type LeadFormData = {
   industry: string;
@@ -69,6 +70,7 @@ export default function Home() {
 
   return (
     <div className="app-shell">
+      <PortalBackdrop />
       <Sidebar activeView={sidebarView} onViewChange={setSidebarView} />
 
       <div className="main-area">
@@ -192,7 +194,9 @@ export default function Home() {
         .app-shell {
           display: flex;
           min-height: 100vh;
-          background: var(--bg-deep);
+          background: transparent;
+          position: relative;
+          isolation: isolate;
         }
 
         .main-area {
@@ -205,7 +209,7 @@ export default function Home() {
         .main-content {
           flex: 1;
           padding: 28px 32px 40px;
-          max-width: 1600px;
+          max-width: 1680px;
           width: 100%;
           margin: 0 auto;
           overflow-y: auto;
