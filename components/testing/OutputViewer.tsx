@@ -1,10 +1,13 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { ChevronDown, ChevronRight, FileText, Table2, Download } from 'lucide-react';
 import type { AgentResult } from '@/lib/types';
 
-interface OutputViewerProps { result: AgentResult | null; }
+interface OutputViewerProps {
+  result: AgentResult | null;
+  onSendMailToLeads?: (result: AgentResult) => void;
+}
 
 interface Lead {
   company_name?: string;
@@ -21,7 +24,14 @@ interface Lead {
   Designation?: string;
   'Company Name'?: string;
   'Contact Name'?: string;
+  lead_id?: string;
   [key: string]: unknown;
+}
+
+interface OutreachUpdate {
+  lead_id: string;
+  status: 'emailed' | 'failed';
+  subject?: string;
 }
 
 function getLeads(output: string): Lead[] {
@@ -53,9 +63,32 @@ function getCompanyInitial(lead: Lead): string {
   return name ? name.charAt(0).toUpperCase() : '?';
 }
 
-export default function OutputViewer({ result }: OutputViewerProps) {
+export default function OutputViewer({ result, onSendMailToLeads }: OutputViewerProps) {
   const [activeTab, setActiveTab] = useState<'table' | 'raw'>('table');
   const [expandedRow, setExpandedRow] = useState<number | null>(null);
+  const [outreachUpdates, setOutreachUpdates] = useState<Record<string, OutreachUpdate>>({});
+
+  useEffect(() => {
+    if (result?.agentId !== 'leads' || !result.executionId) return;
+
+    let cancelled = false;
+    const loadOutreach = async () => {
+      try {
+        const response = await fetch(`/api/outreach/results/${result.executionId}`);
+        if (!response.ok) return;
+        const payload = await response.json() as { updates?: OutreachUpdate[] };
+        if (!cancelled && Array.isArray(payload.updates)) {
+          setOutreachUpdates(Object.fromEntries(payload.updates.map((update) => [update.lead_id, update])));
+        }
+      } catch {
+        // Lead results remain usable if outreach status is temporarily unavailable.
+      }
+    };
+
+    void loadOutreach();
+    const interval = window.setInterval(loadOutreach, 5000);
+    return () => { cancelled = true; window.clearInterval(interval); };
+  }, [result?.agentId, result?.executionId]);
 
   if (!result) {
     return (
@@ -120,6 +153,18 @@ export default function OutputViewer({ result }: OutputViewerProps) {
         </div>
       )}
 
+      {result.agentId === 'leads' && leads.length > 0 && (
+        <div className="outreach-cta">
+          <div>
+            <strong>Ready to contact these leads?</strong>
+            <p>Review the results, then continue to Outreach to send the emails.</p>
+          </div>
+          <button onClick={() => onSendMailToLeads?.(result)}>
+            Send mail to {totalLeads} lead{totalLeads === 1 ? '' : 's'}
+          </button>
+        </div>
+      )}
+
       {/* Tab bar */}
       <div className="tab-bar">
         <button
@@ -149,6 +194,7 @@ export default function OutputViewer({ result }: OutputViewerProps) {
                 <th>Contact</th>
                 <th>Title</th>
                 <th>Score</th>
+                <th>Outreach</th>
                 <th style={{ width: 24 }}></th>
               </tr>
             </thead>
@@ -157,6 +203,8 @@ export default function OutputViewer({ result }: OutputViewerProps) {
                 const score = getScore(lead);
                 const priority = getPriority(score);
                 const isExpanded = expandedRow === index;
+                const leadId = String(lead.lead_id ?? lead['Lead ID'] ?? lead.email ?? '');
+                const outreach = outreachUpdates[leadId];
                 return (
                   <tr key={index}>
                     <td className="cell-initial">{getCompanyInitial(lead)}</td>
@@ -169,6 +217,11 @@ export default function OutputViewer({ result }: OutputViewerProps) {
                       </span>
                       <span className={`priority-tag ${priority.label.toLowerCase()}`}>
                         {priority.label}
+                      </span>
+                    </td>
+                    <td className="cell-outreach" title={outreach?.subject}>
+                      <span className={`outreach-status ${outreach?.status ?? 'pending'}`}>
+                        {outreach?.status === 'emailed' ? 'Emailed' : outreach?.status === 'failed' ? 'Failed' : 'Ready to send'}
                       </span>
                     </td>
                     <td>
@@ -249,6 +302,15 @@ export default function OutputViewer({ result }: OutputViewerProps) {
           height: 36px;
           background: var(--border-subtle);
         }
+        .outreach-cta {
+          display: flex; align-items: center; justify-content: space-between; gap: 16px;
+          padding: 14px 16px; border: 1px solid rgba(255, 148, 202, 0.28);
+          border-radius: var(--radius-sm); background: rgba(255, 148, 202, 0.07);
+        }
+        .outreach-cta strong { font-size: 12px; color: var(--text-primary); }
+        .outreach-cta p { margin: 3px 0 0; font-size: 10px; color: var(--text-tertiary); }
+        .outreach-cta button { flex-shrink: 0; border: 0; border-radius: 7px; padding: 9px 12px; background: linear-gradient(100deg, #ff7bbf, #bd78ff); color: #fff; font-size: 10px; font-weight: 700; cursor: pointer; }
+        .outreach-cta button:hover { filter: brightness(1.08); }
         .tab-bar {
           display: flex;
           gap: 2px;
@@ -332,6 +394,11 @@ export default function OutputViewer({ result }: OutputViewerProps) {
           align-items: center;
           gap: 6px;
         }
+        .cell-outreach { white-space: nowrap; }
+        .outreach-status { display: inline-flex; padding: 3px 7px; border-radius: 999px; font-size: 9px; font-family: var(--font-mono); }
+        .outreach-status.pending { color: var(--text-muted); background: rgba(148,163,184,.12); }
+        .outreach-status.emailed { color: var(--status-completed); background: rgba(94,234,158,.12); }
+        .outreach-status.failed { color: var(--status-failed); background: rgba(251,113,133,.12); }
         .score-pill {
           display: inline-flex;
           align-items: center;

@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import Sidebar from "@/components/testing/Sidebar";
 import TopBar from "@/components/testing/TopBar";
 import AgentPipeline, { agents, type AgentInfo } from "@/components/testing/AgentPipeline";
@@ -8,6 +8,7 @@ import AgentHeader from "@/components/testing/AgentHeader";
 import LeadForm from "@/components/testing/LeadForm";
 import AgentProgress from "@/components/testing/AgentProgress";
 import PortalBackdrop from "@/components/testing/PortalBackdrop";
+import type { AgentResult } from "@/lib/types";
 
 type LeadFormData = {
   industry: string;
@@ -32,32 +33,60 @@ const initialLeadForm: LeadFormData = {
 const split = (value: string) =>
   value.split(",").map((part) => part.trim()).filter(Boolean);
 
+const buildLeadPayload = (form: LeadFormData, requestId: string) => ({
+  request_id: requestId,
+  industry: split(form.industry),
+  roles: split(form.roles),
+  region: split(form.region),
+  cities: split(form.cities),
+  states: split(form.states),
+  company_size: split(form.company_size),
+  business_context: form.business_context,
+});
+
 export default function Home() {
   const [active, setActive] = useState("leads");
   const [manual, setManual] = useState(true);
   const [leadForm, setLeadForm] = useState<LeadFormData>(initialLeadForm);
+  const [requestId, setRequestId] = useState(() => crypto.randomUUID());
   const [run, setRun] = useState(false);
   const [sidebarView, setSidebarView] = useState("studio");
   const [runningAgent, setRunningAgent] = useState<string | null>(null);
+  const [leadResult, setLeadResult] = useState<AgentResult | null>(null);
 
   const agent = agents.find((item) => item.id === active) ?? agents[1];
 
   const leadPayload = useMemo(
-    () => ({
-      request_id: crypto.randomUUID(),
-      industry: split(leadForm.industry),
-      roles: split(leadForm.roles),
-      region: split(leadForm.region),
-      cities: split(leadForm.cities),
-      states: split(leadForm.states),
-      company_size: split(leadForm.company_size),
-      business_context: leadForm.business_context,
-    }),
-    [leadForm]
+    () => buildLeadPayload(leadForm, requestId),
+    [leadForm, requestId]
   );
+
+  const createLeadPayloadForRun = useCallback(() => {
+    const nextRequestId = crypto.randomUUID();
+    setRequestId(nextRequestId);
+    return buildLeadPayload(leadForm, nextRequestId);
+  }, [leadForm]);
 
   const updateLead = (key: keyof LeadFormData, value: string) =>
     setLeadForm((current) => ({ ...current, [key]: value }));
+
+  const getLeadsFromResult = (result: AgentResult | null) => {
+    if (!result) return [];
+    try {
+      const output = result.nodes.map((node) => node.output).filter(Boolean).at(-1) ?? "";
+      const parsed = JSON.parse(output) as Record<string, unknown>;
+      const leads = parsed.leads ?? parsed.data ?? parsed.results;
+      return Array.isArray(leads) ? leads : [];
+    } catch { return []; }
+  };
+
+  const outreachLeads = getLeadsFromResult(leadResult);
+  const outreachPayload = leadResult ? { request_id: leadResult.executionId, leads: outreachLeads } : undefined;
+
+  const openOutreach = (result: AgentResult) => {
+    setLeadResult(result);
+    setActive("outreach");
+  };
 
   const handleAgentSelect = (id: string) => {
     setActive(id);
@@ -143,6 +172,14 @@ export default function Home() {
                     </div>
                   </div>
                 </div>
+              ) : active === "outreach" ? (
+                <div className="automatic-mode">
+                  <div className="auto-icon">Mail</div>
+                  <div>
+                    <strong>{outreachLeads.length ? `${outreachLeads.length} leads ready for outreach` : "No lead results selected"}</strong>
+                    <p>{outreachLeads.length ? "Email is sent only after you click Send emails to leads." : "Return to Lead Management, run it, then choose Send mail to leads."}</p>
+                  </div>
+                </div>
               ) : (
                 <div className="automatic-mode">
                   <div className="auto-icon">↯</div>
@@ -181,8 +218,13 @@ export default function Home() {
               <div className="card execution-card">
                 <AgentProgress
                   agentId={active}
-                  payload={active === "leads" ? leadPayload : undefined}
+                  payload={active === "leads" ? leadPayload : active === "outreach" ? outreachPayload : undefined}
+                  onPrepareRun={active === "leads" ? createLeadPayloadForRun : undefined}
                   onRunningChange={handleRunningChange}
+                  onResult={(result) => { if (result.agentId === "leads") setLeadResult(result); }}
+                  onSendMailToLeads={openOutreach}
+                  actionLabel={active === "outreach" ? `SEND EMAILS TO ${outreachLeads.length} LEAD${outreachLeads.length === 1 ? "" : "S"}` : undefined}
+                  runDisabled={active === "outreach" && outreachLeads.length === 0}
                 />
               </div>
             </div>

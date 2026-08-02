@@ -37,6 +37,7 @@ import type { ExecutionAdapter } from './api-client';
  */
 const WEBHOOK_URLS: Record<string, string | undefined> = {
   leads: process.env.NEXT_PUBLIC_LEAD_MANAGEMENT_WEBHOOK_URL,
+  outreach: process.env.NEXT_PUBLIC_OUTREACH_WEBHOOK_URL,
 };
 
 const LEAD_MANAGEMENT_TIMEOUT_MS = 300000;

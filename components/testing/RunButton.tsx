@@ -8,9 +8,10 @@ interface RunButtonProps {
   onRun: () => void;
   onCancel: () => void;
   disabled?: boolean;
+  idleLabel?: string;
 }
 
-export default function RunButton({ state, onRun, onCancel, disabled }: RunButtonProps) {
+export default function RunButton({ state, onRun, onCancel, disabled, idleLabel = 'RUN AGENT' }: RunButtonProps) {
   if (state === 'loading') {
     return (
       <button className="run-btn loading" disabled>
@@ -132,7 +133,7 @@ export default function RunButton({ state, onRun, onCancel, disabled }: RunButto
   return (
     <button className="run-btn idle" onClick={onRun} disabled={disabled}>
       <span className="play-icon"><Play size={14} fill="currentColor" /></span>
-      <span>RUN AGENT</span>
+      <span>{idleLabel}</span>
       <style jsx>{`
         .run-btn {
           display: inline-flex; align-items: center; gap: 10px;

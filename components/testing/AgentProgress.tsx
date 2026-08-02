@@ -10,10 +10,15 @@ import OutputViewer from './OutputViewer';
 interface AgentProgressProps {
   agentId: string;
   payload?: Record<string, unknown>;
+  onPrepareRun?: () => Record<string, unknown>;
   onRunningChange?: (running: boolean) => void;
+  onResult?: (result: AgentResult) => void;
+  onSendMailToLeads?: (result: AgentResult) => void;
+  actionLabel?: string;
+  runDisabled?: boolean;
 }
 
-export default function AgentProgress({ agentId, payload, onRunningChange }: AgentProgressProps) {
+export default function AgentProgress({ agentId, payload, onPrepareRun, onRunningChange, onResult, onSendMailToLeads, actionLabel, runDisabled }: AgentProgressProps) {
   const [execution, setExecution] = useState<AgentExecution | null>(null);
   const [result, setResult] = useState<AgentResult | null>(null);
   const [logs, setLogs] = useState<LogEntry[]>([]);
@@ -73,6 +78,7 @@ export default function AgentProgress({ agentId, payload, onRunningChange }: Age
         const res = runner.getResult();
         if (res) {
           setResult(res);
+          onResult?.(res);
           setExecution({
             id: res.executionId,
             agentId: res.agentId,
@@ -88,7 +94,7 @@ export default function AgentProgress({ agentId, payload, onRunningChange }: Age
       }
     });
     return () => unsub();
-  }, [onRunningChange]);
+  }, [onRunningChange, onResult]);
 
   // Sync state on mount
   useEffect(() => {
@@ -106,9 +112,14 @@ export default function AgentProgress({ agentId, payload, onRunningChange }: Age
       });
       setExecState(current.success ? 'completed' : 'failed');
       setLogs(current.logs);
+      setExecError(runner.error);
+    } else {
+      setResult(null);
+      setExecution(null);
+      setLogs([]);
+      setExecState('idle');
+      setExecError(null);
     }
-    setExecState(runner.state);
-    setExecError(runner.error);
   }, [agentId, payload]);
 
   // Timer for elapsed time
@@ -131,14 +142,15 @@ export default function AgentProgress({ agentId, payload, onRunningChange }: Age
     setExecError(null);
     try {
       if (agentId === 'leads') {
-        await runner.start('leads', payload);
+        const payloadForRun = onPrepareRun?.() ?? payload;
+        await runner.start('leads', payloadForRun);
       } else {
-        await runner.start(agentId);
+        await runner.start(agentId, payload);
       }
     } catch {
       // handled via events
     }
-  }, [agentId, payload]);
+  }, [agentId, onPrepareRun, payload]);
 
   const handleCancel = useCallback(() => {
     runner.cancel();
@@ -169,6 +181,8 @@ export default function AgentProgress({ agentId, payload, onRunningChange }: Age
           state={runButtonState}
           onRun={handleRun}
           onCancel={handleCancel}
+          idleLabel={actionLabel}
+          disabled={runDisabled}
         />
         {runButtonState === 'running' && (
           <span className="elapsed-timer">
@@ -211,7 +225,7 @@ export default function AgentProgress({ agentId, payload, onRunningChange }: Age
       {/* Output */}
       {view === 'output' && result && (
         <div className="card output-card">
-          <OutputViewer result={result} />
+          <OutputViewer result={result} onSendMailToLeads={onSendMailToLeads} />
         </div>
       )}
 
