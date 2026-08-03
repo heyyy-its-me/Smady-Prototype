@@ -6,6 +6,16 @@ const WEBHOOK_URLS: Record<string, string | undefined> = {
   outreach: process.env.NEXT_PUBLIC_OUTREACH_WEBHOOK_URL,
 };
 
+function databaseFailureDetail(error: unknown): string {
+  const code = typeof error === 'object' && error !== null && 'code' in error ? String(error.code) : '';
+  if (code === '28P01' || code === '28000') return 'PostgreSQL rejected the configured database username or password.';
+  if (code === '3D000') return 'The configured PostgreSQL database name does not exist.';
+  if (code === 'ENOTFOUND') return 'Vercel cannot resolve the configured RDS host name.';
+  if (code === 'ECONNREFUSED' || code === 'ETIMEDOUT' || code === 'ENETUNREACH') return 'Vercel cannot reach RDS on port 5432. Make the RDS endpoint reachable and allow PostgreSQL traffic in its security group.';
+  if (code === 'SELF_SIGNED_CERT_IN_CHAIN' || code === 'UNABLE_TO_VERIFY_LEAF_SIGNATURE') return 'The RDS TLS certificate could not be verified.';
+  return 'PostgreSQL initialization failed. Check the Vercel Function Logs for the server-side error code.';
+}
+
 export async function POST(request: NextRequest, { params }: { params: Promise<{ agentId: string }> }) {
   const { agentId } = await params;
   const webhookUrl = WEBHOOK_URLS[agentId];
@@ -21,7 +31,7 @@ export async function POST(request: NextRequest, { params }: { params: Promise<{
       console.error('Failed to persist workflow execution:', error);
       return NextResponse.json({
         error: 'Unable to persist workflow execution state.',
-        detail: 'Configure DATABASE_URL or DB_HOST, DB_PORT, DB_NAME, DB_USER, and DB_PASSWORD in Vercel, then allow the deployment to reach the RDS instance on port 5432.',
+        detail: databaseFailureDetail(error),
       }, { status: 503 });
     }
   }
