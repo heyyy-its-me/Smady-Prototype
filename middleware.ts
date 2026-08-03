@@ -6,7 +6,9 @@ import { NextRequest, NextResponse } from 'next/server';
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
   const url = request.nextUrl.clone();
-  url.pathname = `/api/_persistent${pathname}`;
+  // `app/api/_persistent` is a private Next.js folder and cannot receive a
+  // rewrite. Public persistence routes use this non-private path instead.
+  url.pathname = `/api/persistence${pathname.slice('/api'.length)}`;
   return NextResponse.rewrite(url);
 }
 
