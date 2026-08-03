@@ -348,7 +348,9 @@ export class N8nWebhookAdapter implements ExecutionAdapter {
     const timeoutId = setTimeout(() => controller.abort(), timeoutMs);
 
     try {
-      const httpResponse = await fetch(webhookUrl, {
+      // Browser-to-n8n calls are vulnerable to CORS and browser network
+      // timeouts. Use the same-origin route so the server performs the webhook call.
+      const httpResponse = await fetch(`/api/agents/${request.agentId}/trigger`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(request.payload ?? {}),
