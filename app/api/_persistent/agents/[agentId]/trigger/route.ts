@@ -19,7 +19,10 @@ export async function POST(request: NextRequest, { params }: { params: Promise<{
     try { await initExecution(payload.request_id, agentId, 'Webhook trigger received by application'); }
     catch (error) {
       console.error('Failed to persist workflow execution:', error);
-      return NextResponse.json({ error: 'Unable to persist workflow execution state.' }, { status: 503 });
+      return NextResponse.json({
+        error: 'Unable to persist workflow execution state.',
+        detail: 'Configure DATABASE_URL or DB_HOST, DB_PORT, DB_NAME, DB_USER, and DB_PASSWORD in Vercel, then allow the deployment to reach the RDS instance on port 5432.',
+      }, { status: 503 });
     }
   }
 
