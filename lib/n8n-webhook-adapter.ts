@@ -383,17 +383,17 @@ export class N8nWebhookAdapter implements ExecutionAdapter {
 
       const clientRequestId = typeof request.payload?.request_id === 'string' ? request.payload.request_id : null;
 
-      // For the lead agent, if we get an acknowledgement, we return a 'running' status
-      // to trigger the polling mechanism in the runner.
-      if (request.agentId === 'leads' && isWorkflowStartedAcknowledgement(responseBody)) {
+      // An acknowledgement means n8n will report completion through the
+      // callback endpoints. Keep the corresponding UI execution running.
+      if (isWorkflowStartedAcknowledgement(responseBody)) {
         return {
           id: clientRequestId ?? `lead-trigger-${now}`,
           agentId: request.agentId,
           status: 'running',
           nodes: [
             {
-              id: 'lead-management-workflow',
-              name: 'Lead Management workflow',
+              id: `${request.agentId}-workflow`,
+              name: `${request.agentId === 'leads' ? 'Lead Management' : 'Outreach'} workflow`,
               status: 'running',
               duration: 0,
               input: '',

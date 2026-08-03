@@ -23,6 +23,10 @@ interface StoredLeadResult {
 const store = new Map<string, StoredLeadResult>();
 
 export function initLeadResult(requestId: string): void {
+  // A poll can arrive after the callback. Never replace a completed result
+  // with a new processing entry.
+  if (store.has(requestId)) return;
+
   store.set(requestId, {
     leads: [],
     total_count: 0,

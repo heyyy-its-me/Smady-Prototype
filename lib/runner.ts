@@ -216,10 +216,8 @@ export class AgentRunner {
    * For webhooks (synchronous), emit all events immediately.
    * For REST+SSE, subscribe to streaming.
    */
-  private isLeadAgentAcknowledgement(response: ApiExecutionResponse): boolean {
-    return response.agentId === 'leads' &&
-      response.status === 'running' &&
-      response.nodes.some(n => n.id === 'lead-management-workflow');
+  private isWebhookAcknowledgement(response: ApiExecutionResponse): boolean {
+    return response.status === 'running' && response.nodes.some((node) => node.status === 'running');
   }
   private async handleExecutionResponse(
     response: ApiExecutionResponse,
@@ -228,9 +226,13 @@ export class AgentRunner {
     isSynchronous: boolean,
     executionAlreadyStarted = false
   ): Promise<AgentExecution> {
-    if (this.isLeadAgentAcknowledgement(response)) {
-      this.startPollingForLeads(response.id);
+    if (this.isWebhookAcknowledgement(response)) {
       this.execution = response;
+      if (response.agentId === 'leads') {
+        this.startPollingForLeads(response.id);
+      } else if (response.agentId === 'outreach') {
+        this.startPollingForOutreach(response.id);
+      }
       return response;
     }
     // Map API response to internal execution type
@@ -409,15 +411,91 @@ export class AgentRunner {
           this.log('error', `Polling result: Lead generation failed. Error: ${result.error}`);
           if (this.poller) clearInterval(this.poller);
           this.handleStartError(new Error(result.error ?? 'Lead generation failed in n8n'), 'leads');
+        } else {
+          this.log('debug', 'Lead Management is still running; waiting for its callback.');
         }
-        // if status is 'processing', do nothing and wait for the next poll.
 
       } catch (error) {
-        this.log('error', `Polling request failed: ${(error as Error).message}`);
-        if (this.poller) clearInterval(this.poller);
-        this.handleStartError(error, 'leads');
+        // A transient fetch failure must not mark an otherwise-running n8n
+        // workflow as failed. The next polling cycle will retry.
+        this.log('warn', `Lead result poll failed: ${(error as Error).message}`);
       }
     }, 5000); // Poll every 5 seconds
+  }
+
+  private startPollingForOutreach(requestId: string): void {
+    this.log('info', `Outreach acknowledged. Waiting for delivery updates for request ID: ${requestId}`);
+    const seenUpdates = new Set<string>();
+
+    if (this.poller) clearInterval(this.poller);
+    this.poller = setInterval(async () => {
+      if (this.cancelled) {
+        if (this.poller) clearInterval(this.poller);
+        return;
+      }
+
+      try {
+        const response = await fetch(`/api/outreach/results/${requestId}`);
+        if (!response.ok) {
+          this.log('warn', `Outreach progress poll failed: Server responded with ${response.status}`);
+          return;
+        }
+
+        const progress = await response.json() as {
+          status?: 'processing' | 'completed' | 'failed';
+          updates?: Array<{ lead_id: string; status: 'emailed' | 'failed'; email?: string; subject?: string; error?: string; updated_at?: number }>;
+          error?: string;
+        };
+        const updates = Array.isArray(progress.updates) ? progress.updates : [];
+
+        for (const update of updates) {
+          const updateKey = `${update.lead_id}:${update.status}:${update.updated_at ?? ''}`;
+          if (seenUpdates.has(updateKey)) continue;
+          seenUpdates.add(updateKey);
+          const recipient = update.email ? ` to ${update.email}` : '';
+          this.log(
+            update.status === 'failed' ? 'error' : 'info',
+            update.status === 'failed'
+              ? `Outreach failed${recipient}: ${update.error ?? 'Unknown delivery error'}`
+              : `Email sent${recipient}${update.subject ? ` (${update.subject})` : ''}.`,
+            update.lead_id,
+          );
+        }
+
+        if (progress.status === 'failed') {
+          if (this.poller) clearInterval(this.poller);
+          this.handleStartError(new Error(progress.error ?? 'Outreach failed in n8n'), 'outreach');
+          return;
+        }
+
+        if (progress.status === 'completed') {
+          if (this.poller) clearInterval(this.poller);
+          const now = Date.now();
+          const finalResponse: ApiExecutionResponse = {
+            id: requestId,
+            agentId: 'outreach',
+            status: 'completed',
+            nodes: [{
+              id: 'outreach-delivery',
+              name: 'Outreach delivery',
+              status: 'success',
+              duration: 0,
+              input: '',
+              output: JSON.stringify({ request_id: requestId, updates }),
+              error: null,
+            }],
+            logs: [],
+            startTime: this.execution?.startTime ?? now,
+            endTime: now,
+          };
+          await this.handleExecutionResponse(finalResponse, this.execution!, 'outreach', true, true);
+        } else {
+          this.log('debug', 'Outreach is still running; waiting for delivery updates.');
+        }
+      } catch (error) {
+        this.log('warn', `Outreach progress poll failed: ${(error as Error).message}`);
+      }
+    }, 3000);
   }
 
 
